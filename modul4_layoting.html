@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praktikum Modul 4 - Layout Grid & Flexbox</title>
+    <style>
+        /* ===== RESET DASAR ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ===== TUGAS 1: GRID CONTAINER (Layout Utama) ===== */
+        .grid-container {
+            display: grid;
+            grid-template-areas: 
+                "header header"
+                "main sidebar"
+                "footer footer";
+            grid-template-columns: 2fr 1fr; /* Main lebih lebar, sidebar lebih kecil */
+            grid-template-rows: auto 1fr auto; /* Header dan footer menyesuaikan konten, main mengisi sisa */
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-height: 90vh;
+        }
+
+        /* ===== TUGAS 2: FLEXBOX Digunakan di Dalam Setiap Section ===== */
+
+        /* ----- HEADER (Flexbox) ----- */
+        .header {
+            grid-area: header;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+            /* Menggunakan Flexbox untuk mengatur logo dan nav */
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .brand p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        /* Navigasi - juga menggunakan Flexbox untuk menu */
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 30px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ----- MAIN CONTENT (Flexbox) ----- */
+        .main-content {
+            grid-area: main;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eaeef2;
+
+            /* Flexbox untuk konten artikel */
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .main-content h2 {
+            color: #2d3748;
+            margin-bottom: 5px;
+            font-size: 1.8rem;
+            border-left: 5px solid #667eea;
+            padding-left: 15px;
+        }
+
+        /* Container untuk artikel-artikel (Flexbox) */
+        .articles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        /* Card artikel (akan otomatis menyesuaikan lebar dengan flex) */
+        .article-card {
+            flex: 1 1 250px; /* Grow, shrink, basis 250px */
+            background: #f9fafc;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            border: 1px solid #edf2f7;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .article-card h3 {
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .article-card p {
+            color: #718096;
+            line-height: 1.6;
+        }
+
+        .article-card small {
+            display: inline-block;
+            margin-top: 15px;
+            color: #a0aec0;
+            font-weight: 500;
+        }
+
+        /* ----- SIDEBAR (Flexbox) ----- */
+        .sidebar {
+            grid-area: sidebar;
+            background-color: #f7fafc;
+            padding: 25px 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eaeef2;
+
+            /* Flexbox untuk mengatur widget */
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .sidebar h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #cbd5e0;
+            padding-bottom: 8px;
+        }
+
+        /* Widget tautan (Flexbox kolom) */
+        .widget-links {
+            list-style: none;
+
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .widget-links a {
+            display: block;
+            padding: 8px 12px;
+            background-color: white;
+            color: #4a5568;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .widget-links a:hover {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        /* Widget informasi (Flexbox sederhana) */
+        .widget-info p {
+            color: #4a5568;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .widget-info .badge {
+            display: inline-block;
+            background-color: #48bb78;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Widget arsip */
+        .widget-archive {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .widget-archive li a {
+            color: #4a5568;
+            text-decoration: none;
+        }
+        .widget-archive li a:hover {
+            color: #667eea;
+            text-decoration: underline;
+        }
+
+        /* ----- FOOTER (Flexbox) ----- */
+        .footer {
+            grid-area: footer;
+            background: #2d3748;
+            color: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+            /* Flexbox untuk mengatur copyright dan social links */
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .copyright p {
+            color: #cbd5e0;
+            font-size: 0.95rem;
+        }
+
+        /* Social links - Flexbox untuk ikon/link */
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .social-links a {
+            color: #cbd5e0;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 8px 12px;
+            background-color: #4a5568;
+            border-radius: 30px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .social-links a:hover {
+            background-color: #667eea;
+            color: white;
+        }
+
+        /* ===== RESPONSIVITAS (Grid berubah jadi satu kolom di layar kecil) ===== */
+        @media screen and (max-width: 768px) {
+            .grid-container {
+                grid-template-areas: 
+                    "header"
+                    "main"
+                    "sidebar"
+                    "footer";
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        /* Gaya tambahan untuk placeholder gambar (simulasi) */
+        .img-placeholder {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(45deg, #e0e7ff, #c7d2fe);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4f46e5;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Grid Container Utama (Sesuai tugas: "Grid Name") -->
+    <div class="grid-container">
+        
+        <!-- HEADER SECTION (Menggunakan Flexbox) -->
+        <header class="header">
+            <div class="brand">
+                <h1>MyWebsite</h1>
+                <p>Belajar Layouting CSS</p>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">Beranda</a></li>
+                    <li><a href="#">Tentang</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Kontak</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- MAIN CONTENT SECTION (Body) -->
+        <main class="main-content">
+            <h2>Artikel Terbaru</h2>
+            
+            <!-- Container flex untuk card artikel -->
+            <div class="articles">
+                <!-- Artikel 1 -->
+                <article class="article-card">
+                    <div class="img-placeholder">Gambar Artikel 1</div>
+                    <h3>Belajar CSS Grid</h3>
+                    <p>Grid adalah sistem layout 2 dimensi yang sangat powerfull untuk membuat halaman web yang kompleks.</p>
+                    <small>Diposting 2 jam lalu</small>
+                </article>
+                
+                <!-- Artikel 2 -->
+                <article class="article-card">
+                    <div class="img-placeholder">Gambar Artikel 2</div>
+                    <h3>Fleksibilitas Flexbox</h3>
+                    <p>Flexbox sangat cocok untuk mengatur komponen dalam satu dimensi, baik secara horizontal maupun vertikal.</p>
+                    <small>Diposting 5 jam lalu</small>
+                </article>
+                
+                <!-- Artikel 3 -->
+                <article class="article-card">
+                    <div class="img-placeholder">Gambar Artikel 3</div>
+                    <h3>Kombinasi Grid & Flexbox</h3>
+                    <p>Menggabungkan Grid untuk layout makro dan Flexbox untuk komponen mikro adalah praktik terbaik.</p>
+                    <small>Diposting kemarin</small>
+                </article>
+            </div>
+
+            <!-- Artikel unggulan tambahan (bisa dianggap sebagai bagian dari body) -->
+            <section style="margin-top: 15px;">
+                <h2 style="font-size: 1.5rem;">Artikel Pilihan</h2>
+                <div class="articles" style="margin-top: 10px;">
+                    <article class="article-card" style="flex: 1 1 100%;">
+                        <h3>Membangun Website Responsif Modern</h3>
+                        <p>Dengan pendekatan mobile-first dan penggunaan unit fleksibel, website akan terlihat sempurna di semua perangkat.</p>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <!-- SIDEBAR SECTION -->
+        <aside class="sidebar">
+            <!-- Widget 1: Tautan -->
+            <div class="widget">
+                <h3>Kategori</h3>
+                <ul class="widget-links">
+                    <li><a href="#">HTML Dasar</a></li>
+                    <li><a href="#">CSS Lanjutan</a></li>
+                    <li><a href="#">JavaScript</a></li>
+                    <li><a href="#">Framework</a></li>
+                </ul>
+            </div>
+
+            <!-- Widget 2: Informasi -->
+            <div class="widget widget-info">
+                <h3>Tentang Penulis</h3>
+                <p>Halo! Saya seorang pengembang web yang sedang belajar CSS layouting. Modul ini sangat membantu saya memahami Grid dan Flexbox.</p>
+                <span class="badge">Pro</span>
+            </div>
+
+            <!-- Widget 3: Arsip -->
+            <div class="widget">
+                <h3>Arsip</h3>
+                <ul class="widget-archive">
+                    <li><a href="#">Maret 2025</a></li>
+                    <li><a href="#">Februari 2025</a></li>
+                    <li><a href="#">Januari 2025</a></li>
+                </ul>
+            </div>
+
+            <!-- Widget 4: Placeholder Iklan -->
+            <div class="widget" style="background: #e2e8f0; padding: 15px; border-radius: 8px; text-align: center;">
+                <p style="color: #4a5568;">Iklan / Banner</p>
+                <div style="background: #cbd5e0; height: 80px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #64748b;">
+                    300x250
+                </div>
+            </div>
+        </aside>
+
+        <!-- FOOTER SECTION -->
+        <footer class="footer">
+            <div class="copyright">
+                <p>&copy; 2025 MyWebsite. Dibuat untuk Tugas Modul 4.</p>
+                <p style="font-size: 0.8rem; margin-top: 5px;">NIM: 12345678 - Contoh</p> <!-- Ganti dengan NIM Anda -->
+            </div>
+            <div>
+                <ul class="social-links">
+                    <li><a href="#">🌐 GitHub</a></li>
+                    <li><a href="#">🐦 Twitter</a></li>
+                    <li><a href="#">📘 LinkedIn</a></li>
+                    <li><a href="#">📷 Instagram</a></li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

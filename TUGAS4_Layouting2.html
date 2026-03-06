@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arloraka · Coffee & Pastry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f9f1e7;  /* hangat seperti susu */
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            line-height: 1.5;
+            color: #2e241f;
+        }
+
+        /* ---------- grid utama (masih grid, tapi komposisi beda) ---------- */
+        .container {
+            display: grid;
+            grid-template-areas: 
+                "header header"
+                "featured sidebar"
+                "gallery gallery"
+                "footer footer";
+            grid-template-columns: 2fr 1fr;
+            gap: 1.8rem;
+            max-width: 1300px;
+            margin: 1.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ---------- header lebih modern, transparan dengan blur ---------- */
+        .header {
+            grid-area: header;
+            background: rgba(44, 30, 24, 0.85);   /* cokelat pekat transparan */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #fef6ea;
+            padding: 1.2rem 2rem;
+            border-radius: 60px;                  /* bentuk pil */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 235, 215, 0.35);
+            margin-bottom: 0.4rem;
+        }
+
+        /* logo area — inline dengan gambar dan teks */
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-group svg {
+            width: 52px;
+            height: 52px;
+            filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2));
+        }
+
+        .logo-group h1 {
+            font-size: 1.9rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: lowercase;
+            border-left: 2px solid #e8c1a0;
+            padding-left: 16px;
+        }
+        .logo-group h1 span {
+            font-weight: 600;
+            color: #ffddb0;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav a {
+            color: #ffefe3;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 5px;
+            transition: 0.2s;
+        }
+        .nav a:hover {
+            border-bottom-color: #e3b18c;
+            color: #fff3e6;
+        }
+
+        /* ---------- FEATURED (dulu body, sekarang jadi area sorotan) ---------- */
+        .featured {
+            grid-area: featured;
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        /* card baru — tampilan lebih artistik */
+        .card-modern {
+            background: white;
+            padding: 2rem 1.8rem;
+            border-radius: 48px 20px 48px 20px;   /* asimetris biar beda */
+            box-shadow: 0 15px 25px -12px rgba(75, 45, 30, 0.25);
+            transition: all 0.15s ease;
+            border: 1px solid #edd9c5;
+        }
+        .card-modern:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 22px 30px -10px #aa7a5d80;
+        }
+
+        .card-modern h2 {
+            font-size: 2rem;
+            font-weight: 350;
+            color: #492e1e;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+            border-left: 5px solid #b2805a;
+            padding-left: 1rem;
+        }
+
+        .card-modern p {
+            color: #3b2b21;
+            font-size: 1.1rem;
+            margin-top: 0.75rem;
+        }
+
+        /* label kecil */
+        .menu-tag {
+            display: inline-block;
+            background: #dbb48b;
+            padding: 0.2rem 1.2rem;
+            border-radius: 40px;
+            color: #221811;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            margin-bottom: 1rem;
+            border: 1px solid #fdebd0;
+        }
+
+        /* ---------- SIDEBAR (masih mirip, tapi lebih hangat) ---------- */
+        .sidebar {
+            grid-area: sidebar;
+            background: #fffbf5;
+            border-radius: 40px 40px 20px 20px;
+            padding: 2rem 1.8rem;
+            box-shadow: inset 0 0 0 1px #f2ddd0, 0 10px 15px -10px #8b5e44;
+            border: 1px solid #ebcbb5;
+            display: flex;
+            flex-direction: column;
+            gap: 2.4rem;
+        }
+
+        .sidebar-item h3 {
+            font-size: 1.7rem;
+            font-weight: 330;
+            color: #653e28;
+            margin-bottom: 0.4rem;
+            border-bottom: 2px dotted #cfa27e;
+            padding-bottom: 8px;
+        }
+
+        .sidebar-item p {
+            font-size: 1.2rem;
+            color: #3f2d1f;
+            background: #fff0e2;
+            padding: 0.6rem 1rem;
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 0 2px 5px #e7cbb6;
+        }
+        .sidebar-item .hours {
+            background: #ead2be;
+            font-weight: 600;
+        }
+
+        /* ---------- GALERI (baru) — menggantikan bagian kosong, tetap relevan ---------- */
+        .gallery {
+            grid-area: gallery;
+            display: flex;
+            flex-wrap: wrap;
+            background: #f5e4d5;
+            border-radius: 50px;
+            padding: 2rem 2rem;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            border: 2px solid #dfc3aa;
+            box-shadow: 0 6px 0 #b48b6e;
+        }
+
+        .gallery-text {
+            flex: 2 1 200px;
+        }
+        .gallery-text h3 {
+            font-size: 2.2rem;
+            font-weight: 300;
+            color: #3a2419;
+        }
+        .gallery-text p {
+            font-size: 1.2rem;
+            color: #5e3f2c;
+        }
+        .gallery .stamps {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .stamp {
+            background: #fcf3ea;
+            border-radius: 100px;
+            padding: 0.5rem 1.8rem;
+            font-weight: 600;
+            color: #5f3c26;
+            box-shadow: 0 3px 0 #c29d7d;
+            border: 1px solid #f7e1cf;
+        }
+
+        /* ---------- FOOTER (lebih estetik) ---------- */
+        .footer {
+            grid-area: footer;
+            background: #241b15;
+            color: #f7dcc8;
+            padding: 1.3rem 2rem;
+            border-radius: 100px 100px 30px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            border-top: 4px solid #a77956;
+            margin-top: 1rem;
+        }
+        .footer .social {
+            font-weight: 500;
+            background: #3e2b1d;
+            padding: 0.4rem 1.5rem;
+            border-radius: 40px;
+            color: #fad6b3;
+        }
+
+        /* ---------- RESPONSIVE: tablet/mobile jadi tumpuk ---------- */
+        @media (max-width: 800px) {
+            .container {
+                grid-template-areas: 
+                    "header"
+                    "featured"
+                    "sidebar"
+                    "gallery"
+                    "footer";
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .header {
+                border-radius: 30px;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+            .logo-group h1 { font-size: 1.6rem; }
+            .nav { gap: 1rem; }
+        }
+
+        /* sentuhan kecil */
+        .cozy-badge {
+            background: #a77252;
+            color: #ffe7d6;
+            padding: 0.2rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- HEADER dengan logo SVG inline (tidak perlu file eksternal) -->
+    <header class="header">
+        <div class="logo-group">
+            <!-- logo vektor sederhana: cangkir kopi + asap -->
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="55" r="26" fill="#E7C59B" stroke="#573e2b" stroke-width="3"/>
+                <path d="M26 55 Q20 70 26 82 Q35 88 50 82 Q65 88 74 82 Q80 70 74 55" fill="#B28B5E" opacity="0.9"/>
+                <rect x="38" y="33" width="24" height="12" rx="6" fill="#C9A77D" stroke="#4f3624" stroke-width="2"/>
+                <path d="M32 27 L68 27 L64 18 L36 18 L32 27" fill="#8C6A48" />
+                <circle cx="44" cy="46" r="4" fill="#F5E0C1" />
+                <circle cx="56" cy="46" r="4" fill="#F5E0C1" />
+                <path d="M65 70 Q72 60 80 58 Q84 60 82 66 Q76 72 69 72 Q64 72 65 70Z" fill="#DBC1A5" stroke="#75563b" stroke-width="1.5"/>
+            </svg>
+            <h1>arloraka <span>caffe</span></h1>
+        </div>
+        <nav class="nav">
+            <a href="#">home</a>
+            <a href="#">menu</a>
+            <a href="#">cerita</a>
+            <a href="#">lokasi</a>
+        </nav>
+    </header>
+
+    <!-- MAIN (featured area) dengan tiga kartu konten, tapi gaya baru -->
+    <section class="featured">
+        <!-- kartu 1 -->
+        <div class="card-modern">
+            <span class="menu-tag"> signature</span>
+            <h2>espresso romano</h2>
+            <p>Kopi arabika toraja dengan sentuhan lemon dan aroma rempah. Diseduh setiap pesanan.</p>
+        </div>
+        <!-- kartu 2 -->
+        <div class="card-modern">
+            <span class="menu-tag"> fresh from oven</span>
+            <h2>pastry de langue</h2>
+            <p>Croissant isi almond praline, pain au chocolat, dan danish berry — buatan tangan tiap pagi.</p>
+        </div>
+        <!-- kartu 3 -->
+        <div class="card-modern">
+            <span class="menu-tag">🪑 sudut sunyi</span>
+            <h2>ruang ketiga</h2>
+            <p>Meja kayu, pencahayaan hangat, colokan di setiap sudut. Untuk work from cafe paling nyaman.</p>
+        </div>
+    </section>
+
+    <!-- SIDEBAR dengan info berbeda (masih jam, promo, lokasi) tetapi visual baru -->
+    <aside class="sidebar">
+        <div class="sidebar-item">
+            <h3> promo langit</h3>
+            <p>beli 1 minuman dapat 1 pastry</p>
+        </div>
+        <div class="sidebar-item">
+            <h3> buka</h3>
+            <p class="hours">senin - minggu : 07.30 - 23.00</p>
+        </div>
+        <div class="sidebar-item">
+            <h3> markas</h3>
+            <p>Jl. otakudesu 25, Surabaya</p>
+            <p style="margin-top: 0.5rem; background: #f0d4be;"> ground floor, pintu kayu cokelat</p>
+        </div>
+        <!-- tambahan info kecil -->
+        <div style="font-style: italic; color: #6e4e34; border-left: 3px solid #c48f65; padding-left: 1rem;">
+            "ruang ngopi yang tidak terburu-buru"
+        </div>
+    </aside>
+
+    <!-- GALLERY baru — menampilkan suasana / menu unggulan (masih konteks kafe) -->
+    <div class="gallery">
+        <div class="gallery-text">
+            <h3>#minumandulu &#8226; arloraka</h3>
+            <p>cold brew, vietnam drip, atau manual brew? semua ada.</p>
+        </div>
+        <div class="stamps">
+            <span class="stamp"> single origin</span>
+            <span class="stamp"> dark mocha</span>
+            <span class="stamp">salted caramel</span>
+            <span class="stamp"> yuzu coffee</span>
+        </div>
+    </div>
+
+    <!-- FOOTER dengan identitas dan sosial media -->
+    <footer class="footer">
+        <p>© 2026 — arloraka caffe • surabaya</p>
+        <p class="social"> @arloraka.caffe  |   arloraka.co</p>
+    </footer>
+
+</div> 
+<!-- container end -->
+
+<!-- catatan: logo sudah inline svg, tidak perlu file gambar eksternal. jika ingin pakai file png bisa ganti svg dengan img src="logo.png" -->
+</body>
+</html>
